@@ -8,69 +8,50 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
     const userMessage = messages[messages.length - 1]?.content || "";
 
-    const lowerMsg = userMessage.toLowerCase();
-    const relatedKeywords = [
-      "cách mạng tháng tám",
-      "giải phóng dân tộc",
-      "đảng cộng sản",
-      "hồ chí minh",
-      "việt minh",
-      "đông dương",
-      "phát xít nhật",
-      "pháp",
-      "1939",
-      "1940",
-      "1941",
-      "1945",
-      "khởi nghĩa",
-      "tân trào",
-      "pác bó",
-      "bắc sơn",
-      "nam kỳ",
-      "đô lương",
-      "tuyên ngôn độc lập",
-    ];
-
-    const isRelated = relatedKeywords.some((kw) => lowerMsg.includes(kw));
-
-    if (!isRelated) {
-      return NextResponse.json({
-        reply:
-          "Xin lỗi, câu hỏi của bạn không nằm trong phạm vi kiến thức của tôi. Tôi chỉ hỗ trợ các chủ đề liên quan đến **lịch sử Việt Nam giai đoạn 1939–1945**, như: Đảng Cộng sản Đông Dương, phong trào Việt Minh, khởi nghĩa Tháng Tám, hay Chủ tịch Hồ Chí Minh.",
-      });
-    }
-
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const context = `
-Bạn là Trợ lý Giải Phóng AI – hướng dẫn viên lịch sử Việt Nam chuyên về giai đoạn 1939–1945.
-Trả lời bằng tiếng Việt, giọng học thuật, rõ ràng, ngắn gọn, không lan man.
+    const systemContext = `
+Bạn là Trợ lý Giải Phóng AI — một hướng dẫn viên lịch sử Việt Nam chuyên về giai đoạn 1939–1945. 
+Trả lời bằng tiếng Việt, văn phong học thuật, dễ hiểu và súc tích. Khi thích hợp, hãy chia nội dung thành các gạch đầu dòng.
 
-Chỉ tập trung vào các sự kiện:
-- Hội nghị Trung ương VI (11/1939 – Bà Điểm, Gia Định)
-- Hội nghị Trung ương VIII (5/1941 – Pác Bó, Cao Bằng)
-- Việt Minh, phong trào khởi nghĩa Bắc Sơn, Nam Kỳ, Đô Lương
-- Cao trào kháng Nhật cứu nước (1945)
-- Tổng khởi nghĩa Tháng Tám (1945)
-- Ngày 2/9/1945 – Tuyên ngôn độc lập
-- Tính chất và ý nghĩa của Cách mạng Tháng Tám
+📚 Kiến thức nền (bạn cần dựa vào để trả lời):
 
-Nếu người dùng hỏi ngoài phạm vi đó, chỉ cần nói rằng: 
-“Xin lỗi, tôi chỉ hỗ trợ kiến thức lịch sử Việt Nam giai đoạn 1939–1945.”
-`;
+PHONG TRÀO GIẢI PHÓNG DÂN TỘC 1939–1945
+────────────────────────────────────────────
+• Thời kỳ 1939–1945 đánh dấu bước chuyển chiến lược của Đảng Cộng sản Đông Dương từ đấu tranh dân chủ sang đấu tranh giải phóng dân tộc.  
+• Hội nghị Trung ương VI (11/1939 – Bà Điểm, Gia Định): chuyển hướng sang giải phóng dân tộc, thành lập Mặt trận phản đế Đông Dương.  
+• Hội nghị Trung ương VIII (5/1941 – Pác Bó, Cao Bằng): Nguyễn Ái Quốc về nước, lập Mặt trận Việt Minh, tạm gác cách mạng ruộng đất, xác định khởi nghĩa vũ trang là nhiệm vụ trung tâm.  
+• Các khởi nghĩa tiêu biểu: Bắc Sơn (9/1940), Nam Kỳ (11/1940), Đô Lương (1/1941) — những tiếng súng mở đầu cho đấu tranh vũ trang.  
+• Cao trào kháng Nhật cứu nước (sau 3/1945): Nhật đảo chính Pháp (9/3/1945), Đảng ra Chỉ thị “Nhật - Pháp bắn nhau và hành động của chúng ta”, phát động “Phá kho thóc, giải quyết nạn đói”.  
+• Hội nghị toàn quốc (14–15/8/1945 – Tân Trào): Phát lệnh Tổng khởi nghĩa, Quân lệnh số 1.  
+• Đại hội Quốc dân (16/8/1945): Thành lập Ủy ban Dân tộc Giải phóng VN.  
+• Thắng lợi Tổng khởi nghĩa Tháng Tám 1945: Giành chính quyền toàn quốc. Ngày 2/9/1945, Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Ba Đình.  
+• Tính chất Cách mạng Tháng Tám: Cuộc cách mạng giải phóng dân tộc mang tính dân chủ mới — mục tiêu độc lập dân tộc, đoàn kết toàn dân, nhưng chưa triệt để về ruộng đất.
 
-    const prompt = `${context}\n\nCâu hỏi: ${userMessage}`;
+────────────────────────────────────────────
+Nguyên tắc trả lời:
+1. Nếu câu hỏi liên quan đến lịch sử Việt Nam 1939–1945 → trả lời chi tiết dựa trên nội dung trên.  
+2. Nếu câu hỏi vượt ngoài phạm vi đó → lịch sự từ chối và mời người dùng hỏi trong chủ đề lịch sử giai đoạn 1939–1945.  
+3. Nếu người dùng yêu cầu tóm tắt → trình bày ngắn gọn 3–5 gạch đầu dòng.  
+4. Nếu người dùng hỏi “vì sao”, “tại sao”, “ý nghĩa” → phân tích nguyên nhân và kết quả.  
+5. Không bịa đặt dữ kiện mới.
+    `;
+
+    const prompt = `
+${systemContext}
+
+❓ Câu hỏi người dùng:
+${userMessage}
+    `;
+
     const result = await model.generateContent(prompt);
     const reply = result.response.text();
 
     return NextResponse.json({ reply });
-  } catch (err: unknown) {
+  } catch (err: any) {
     console.error("Gemini API error:", err);
     return NextResponse.json(
-      {
-        reply:
-          "Xin lỗi nha, tôi chỉ có thể trả lời về lịch sử Việt Nam giai đoạn 1939–1945 thôi đó! Hãy thử hỏi tôi về Cách mạng Tháng Tám hay Việt Minh nhé.",
-      },
+      { reply: "⚠️ Xin lỗi, tôi không thể trả lời ngay bây giờ." },
       { status: 500 }
     );
   }
