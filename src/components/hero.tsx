@@ -246,7 +246,7 @@ export default function HeroSlider() {
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 md:bottom-10 md:right-10 flex flex-col items-center gap-2 md:gap-3 z-20">
+      <div className="absolute bottom-28 right-6 sm:bottom-8 sm:right-20 md:bottom-10 md:right-28 flex flex-col items-center gap-2 md:gap-3 z-20">
         <button
           type="button"
           aria-label="Slide trước"
