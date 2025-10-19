@@ -48,10 +48,13 @@ ${userMessage}
     const reply = result.response.text();
 
     return NextResponse.json({ reply });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Gemini API error:", err);
     return NextResponse.json(
-      { reply: "⚠️ Xin lỗi, tôi không thể trả lời ngay bây giờ." },
+      {
+        reply:
+          "Xin lỗi nha, tôi chỉ có thể trả lời về lịch sử Việt Nam giai đoạn 1939–1945 thôi đó! Hãy thử hỏi tôi về Cách mạng Tháng Tám hay Việt Minh nhé.",
+      },
       { status: 500 }
     );
   }
