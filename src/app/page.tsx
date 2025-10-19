@@ -1,5 +1,6 @@
 "use client";
 
+import ChatBox from "@/components/chat";
 import VietnamFooter from "@/components/footer";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
@@ -22,6 +23,7 @@ export default function Home() {
       <UprisingSection1945 />
       <RevolutionNature1945 />
       <VietnamFooter />
+      <ChatBox />
     </div>
   );
 }
