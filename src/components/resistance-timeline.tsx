@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import AnimatedHeroBackground from "./animate-blob";
 
 export default function ResistanceSectionModern() {
   const fadeUp: Variants = {
@@ -18,9 +19,16 @@ export default function ResistanceSectionModern() {
   return (
     <section
       id="khang-nhat"
-      className="relative py-10 bg-white text-[var(--color-gray-text)]"
+      className="relative py-10 bg-white text-[var(--color-gray-text)] overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 text-center">
+      {/* ✅ Hiệu ứng nền động blob + particles */}
+      <AnimatedHeroBackground
+        showParticles
+        colorStops={["#e45b5b", "#f59e0b", "#ef4444"]}
+        className="opacity-35"
+      />
+
+      <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <motion.h2
           variants={fadeUp}
           initial="hidden"
@@ -36,6 +44,7 @@ export default function ResistanceSectionModern() {
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-20 text-left md:text-justify leading-relaxed">
+          {/* === Nhật đảo chính Pháp === */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -58,6 +67,7 @@ export default function ResistanceSectionModern() {
             </ul>
           </motion.div>
 
+          {/* === Chỉ thị 12/3/1945 === */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -84,6 +94,7 @@ export default function ResistanceSectionModern() {
             </ul>
           </motion.div>
 
+          {/* === Cao trào đấu tranh === */}
           <motion.div
             variants={fadeUp}
             initial="hidden"

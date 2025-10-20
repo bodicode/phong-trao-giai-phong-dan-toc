@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { CalendarDays } from "lucide-react";
 import { useState } from "react";
 import { TimelineModal } from "./timeline-modal";
+import AnimatedHeroBackground from "./animate-blob";
 
 type TimelineItem = {
   year: string;
@@ -129,7 +130,14 @@ export default function HistoricalTimeline() {
       id="chien-luoc"
       className="relative py-20 md:py-10 bg-[var(--color-beige-light)]/30 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6">
+      {/* ✅ Hiệu ứng nền động */}
+      <AnimatedHeroBackground
+        showParticles
+        colorStops={["#e45b5b", "#f59e0b", "#ef4444"]}
+        className="opacity-40"
+      />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}

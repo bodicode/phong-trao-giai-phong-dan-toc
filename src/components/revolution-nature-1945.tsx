@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import AnimatedHeroBackground from "./animate-blob";
 
 export default function RevolutionNatureModern() {
   const data = [
@@ -56,15 +57,22 @@ export default function RevolutionNatureModern() {
   return (
     <section
       id="tinh-chat"
-      className="py-14 sm:py-20 bg-[var(--background)] scroll-mt-24"
+      className="relative py-14 sm:py-20 bg-[var(--background)] scroll-mt-24 overflow-hidden"
     >
+      {/* ✅ Hiệu ứng nền blob + particles */}
+      <AnimatedHeroBackground
+        showParticles
+        colorStops={["#e45b5b", "#f59e0b", "#ef4444"]}
+        className="opacity-40"
+      />
+
       {/* ===== Section Header ===== */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="text-center max-w-5xl mx-auto mb-16 px-6"
+        className="relative z-10 text-center max-w-5xl mx-auto mb-16 px-6"
       >
         <h2
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight"
@@ -87,7 +95,7 @@ export default function RevolutionNatureModern() {
       </motion.div>
 
       {/* ===== Section Body ===== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         {data.map((section, idx) => (
           <div
             key={section.id}
