@@ -78,10 +78,7 @@ export default function HeroSlider() {
   }, [isMounted]);
 
   return (
-    <section
-      id="boi-canh"
-      className="scroll-mt-20 sm:scroll-mt-24 relative flex flex-col md:flex-row items-center justify-between overflow-hidden min-h-screen bg-beige-light pt-16 sm:pt-20"
-    >
+    <section className="scroll-mt-20 sm:scroll-mt-24 relative flex flex-col md:flex-row items-center justify-between overflow-hidden min-h-screen bg-beige-light pt-16 sm:pt-20">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {isMounted &&
