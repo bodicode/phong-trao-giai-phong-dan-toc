@@ -113,6 +113,7 @@ export function TimelineModal({
                     src={data.image}
                     alt={data.title}
                     fill
+                    priority
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

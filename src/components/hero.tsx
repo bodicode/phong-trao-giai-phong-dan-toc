@@ -52,7 +52,6 @@ export default function HeroSlider() {
 
   const current = slides[index];
 
-  // Generate particles data once on client side
   const particles = useMemo(() => {
     if (!isMounted) return [];
     const width = window.innerWidth;
@@ -79,7 +78,6 @@ export default function HeroSlider() {
 
   return (
     <section className="scroll-mt-20 sm:scroll-mt-24 relative flex flex-col md:flex-row items-center justify-between overflow-hidden min-h-screen bg-beige-light pt-16 sm:pt-20">
-      {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {isMounted &&
           particles.map((particle) => (
@@ -106,42 +104,40 @@ export default function HeroSlider() {
           ))}
       </div>
 
-      <div className="absolute inset-0 md:inset-y-0 md:left-0 md:w-3/5 lg:w-3/4">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current.image}
-            initial={{ opacity: 0, scale: 1.2, rotateY: -15 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              rotateY: 0,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.9,
-              rotateY: 15,
-              filter: "blur(10px)",
-            }}
-            transition={{
-              duration: 0.8,
-              ease: [0.43, 0.13, 0.23, 0.96],
-            }}
-            className="w-full h-full relative"
-          >
-            <Image
-              src={current.image}
-              alt={current.title}
-              fill
-              className="object-cover brightness-95 object-center"
-              priority
-            />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-beige-light/60 to-beige-light md:via-beige-light/70 md:to-beige-light/90"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            />
-          </motion.div>
+      {/* ==== Optimized background image transition ==== */}
+      <div className="absolute inset-0 md:inset-y-0 md:left-0 md:w-3/5 lg:w-3/4 overflow-hidden">
+        <AnimatePresence mode="popLayout">
+          {slides.map((s, i) =>
+            i === index ? (
+              <motion.div
+                key={s.image}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeOut",
+                }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={s.image}
+                  alt={s.title}
+                  fill
+                  className="object-cover brightness-95 object-center will-change-transform"
+                  priority={i < 2}
+                  quality={70}
+                  unoptimized
+                />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-beige-light/60 to-beige-light md:via-beige-light/70 md:to-beige-light/90"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                />
+              </motion.div>
+            ) : null
+          )}
         </AnimatePresence>
       </div>
 
