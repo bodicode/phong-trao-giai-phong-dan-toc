@@ -45,11 +45,11 @@ export default function AboutProjectPage() {
             className="text-5xl md:text-7xl font-black mb-6 leading-tight"
           >
             <span className="bg-gradient-to-r from-[var(--color-red-rev)] via-red-500 to-orange-500 bg-clip-text text-transparent">
-              Giải Phóng
+              Phong Trào
             </span>
             <br />
             <span className="text-[var(--color-gray-text)]">
-              Hành Trình Độc Lập 1939-1945
+              Giải Phóng Dân Tộc 1939-1945
             </span>
           </motion.h1>
 
