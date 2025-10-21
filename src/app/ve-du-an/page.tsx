@@ -49,7 +49,7 @@ export default function AboutProjectPage() {
             </span>
             <br />
             <span className="text-[var(--color-gray-text)]">
-              Hành Trình Độc Lập
+              Hành Trình Độc Lập 1939-1945
             </span>
           </motion.h1>
 
